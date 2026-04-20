@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TypeX Ultra</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #020617);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  color: white;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% }
+  50% { background-position: 100% }
+  100% { background-position: 0% }
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #38bdf8;
+}
+
+/* Buttons */
+button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #38bdf8;
+  color: black;
+  transform: scale(1.05);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
+.card {
+  width: 90%;
+  max-width: 900px;
+  padding: 25px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* Level */
+#level {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* XP */
+.xp-bar {
+  height: 12px;
+  background: #1e293b;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+#xp-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  transition: width 0.5s ease;
+}
+
+/* Quote */
+.quote {
+  font-size: 22px;
+  line-height: 2;
+}
+
+/* Text styles */
+.correct { color: #22c55e; text-shadow: 0 0 5px #22c55e; }
+.wrong { color: #ef4444; }
+
+.current {
+  border-bottom: 2px solid #38bdf8;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Hidden input */
+input {
+  opacity: 0;
+  position: absolute;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">⚡ TypeX Ultra</div>
+  <div>
+    <button onclick="restart()">Restart</button>
+    <button onclick="stopTest()">Stop</button>
+  </div>
+</div>
+
+<div class="main" onclick="focusInput()">
+  <div class="card">
+
+    <div id="level">🏆 Level: 1</div>
+
+    <div class="xp-bar">
+      <div id="xp-fill"></div>
+    </div>
+
+    <div id="quote" class="quote"></div>
+
+    <input id="input">
+
+    <div class="stats">
+      <span>⏱ <span id="time">60</span></span>
+      <span>⚡ <span id="wpm">0</span></span>
+      <span>🎯 <span id="acc">0</span>%</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const texts = [
+  "Push yourself because no one else is going to do it for you.",
+  "Consistency is the key to success in every field.",
+  "Hard work always pays off if you stay dedicated.",
+  "Keep learning and never stop improving your skills."
+];
+
+let level = 0, xp = 0, xpNeed = 100;
+let time, timer, started, startTime;
+let currentText = "";
+
+const quoteEl = document.getElementById("quote");
+const inputEl = document.getElementById("input");
+
+function loadText() {
+  currentText = texts[Math.floor(Math.random()*texts.length)];
+  quoteEl.innerHTML = "";
+
+  currentText.split("").forEach((c,i)=>{
+    let span = document.createElement("span");
+    span.innerText = c;
+    if(i===0) span.classList.add("current");
+    quoteEl.appendChild(span);
+  });
+
+  document.getElementById("level").innerText = "🏆 Level: " + (level+1);
+}
+
+function focusInput() { inputEl.focus(); }
+
+function startTimer() {
+  startTime = new Date();
+  timer = setInterval(()=>{
+    time--;
+    document.getElementById("time").innerText = time;
+    if(time===0) stopTest();
+  },1000);
+}
+
+inputEl.addEventListener("input", ()=>{
+  if(!started){
+    startTimer();
+    started=true;
+  }
+
+  const input = inputEl.value.split("");
+  const spans = quoteEl.querySelectorAll("span");
+
+  let correct=0;
+
+  spans.forEach((s,i)=>{
+    const ch = input[i];
+    s.classList.remove("current");
+
+    if(ch==null){
+      s.classList.remove("correct","wrong");
+    }
+    else if(ch===s.innerText){
+      s.classList.add("correct");
+      correct++;
+    }
+    else{
+      s.classList.add("wrong");
+    }
+  });
+
+  if(spans[input.length]){
+    spans[input.length].classList.add("current");
+  }
+
+  let acc = Math.round((correct/currentText.length)*100);
+  document.getElementById("acc").innerText = acc || 0;
+});
+
+function calculate(){
+  let words = inputEl.value.trim().split(/\s+/).length;
+  let min = (new Date()-startTime)/60000;
+  let wpm = Math.round(words/min);
+
+  document.getElementById("wpm").innerText = wpm||0;
+
+  xp += wpm*2;
+
+  if(xp>=xpNeed){
+    xp-=xpNeed;
+    level++;
+  }
+
+  document.getElementById("xp-fill").style.width = (xp/xpNeed*100)+"%";
+}
+
+function stopTest(){
+  clearInterval(timer);
+  inputEl.disabled=true;
+  calculate();
+}
+
+function restart(){
+  clearInterval(timer);
+  time=60;
+  started=false;
+
+  document.getElementById("time").innerText=time;
+  document.getElementById("wpm").innerText=0;
+  document.getElementById("acc").innerText=0;
+
+  inputEl.value="";
+  inputEl.disabled=false;
+
+  loadText();
+}
+
+restart();
+</script>
+
+</body>
+</html>

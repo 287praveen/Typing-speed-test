@@ -6,194 +6,113 @@
 <title>TypeX Ultimate</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
+* {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
 
 body {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #020617);
-  background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
-  color: white;
-}
-
-@keyframes gradientMove {
-  0% { background-position: 0% }
-  50% { background-position: 100% }
-  100% { background-position: 0% }
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:linear-gradient(-45deg,#0f172a,#1e293b,#020617);
+  color:white;
 }
 
 /* NAVBAR */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  flex-wrap: wrap;
-}
-
-.logo {
-  font-weight: bold;
-  font-size: 18px;
-  color: #38bdf8;
+  display:flex;
+  justify-content:space-between;
+  padding:10px;
+  flex-wrap:wrap;
 }
 
 .nav-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  width: 100%;
-  margin-top: 8px;
+  display:flex;
+  gap:5px;
+  width:100%;
 }
 
-/* BUTTONS */
 button {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #38bdf8;
-  color: black;
-  transform: scale(1.05);
+  flex:1;
+  padding:8px;
+  border:none;
+  border-radius:6px;
+  background:#1e293b;
+  color:white;
 }
 
 /* MAIN */
 .main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-/* CARD */
 .card {
-  width: 100%;
-  max-width: 900px;
-  padding: 20px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(20px);
-}
-
-/* LEVEL */
-#level {
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-/* XP */
-.xp-bar {
-  height: 12px;
-  background: #1e293b;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 15px;
-}
-
-#xp-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #38bdf8, #22c55e);
-  transition: width 0.5s ease;
+  width:90%;
+  max-width:800px;
 }
 
 /* TEXT */
-.quote {
-  font-size: 18px;
-  line-height: 1.8;
-}
-
-.correct { color: #22c55e; }
-.wrong { color: #ef4444; }
+.quote {font-size:18px;line-height:1.6;}
+.correct {color:lime;}
+.wrong {color:red;}
 
 .current {
-  border-bottom: 2px solid #38bdf8;
-  animation: blink 1s infinite;
+  border-bottom:2px solid cyan;
+  animation:blink 1s infinite;
 }
 
-@keyframes blink {
-  50% { border-color: transparent; }
+@keyframes blink {50%{border-color:transparent;}}
+
+/* XP */
+.xp-bar {
+  height:10px;
+  background:#1e293b;
+  margin:10px 0;
 }
 
-/* STATS */
-.stats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  font-size: 14px;
+#xp-fill {
+  height:100%;
+  width:0%;
+  background:cyan;
 }
 
-/* INPUT */
-input {
-  opacity: 0;
-  position: absolute;
-}
-
-/* TROPHY SCREEN */
+/* TROPHY */
 #trophyScreen {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #020617, #0f172a);
-  color: white;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 1000;
-  text-align: center;
-  overflow: hidden;
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background:black;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
 }
 
 #trophyIcon {
-  font-size: 80px;
-  animation: bounce 1s infinite;
+  font-size:70px;
+  animation:bounce 1s infinite;
 }
 
 @keyframes bounce {
-  50% { transform: translateY(-15px); }
-}
-
-.final-stats {
-  margin: 20px 0;
+  50%{transform:translateY(-10px);}
 }
 
 #trophyScreen button {
-  width: auto;
-  flex: none;
-  padding: 12px 25px;
-  border-radius: 10px;
-  background: #38bdf8;
-  color: black;
+  width:auto;
+  padding:10px 20px;
+  margin-top:15px;
+  background:cyan;
+  color:black;
 }
 
+/* CANVAS */
 #confetti {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* MOBILE */
-@media (max-width: 500px) {
-  .quote { font-size: 16px; }
-  button { font-size: 13px; }
+  position:absolute;
+  top:0;
+  left:0;
 }
 </style>
 </head>
@@ -201,32 +120,29 @@ input {
 <body>
 
 <div class="navbar">
-  <div class="logo">⚡ TypeX Ultimate</div>
-
+  <div>⚡ TypeX</div>
   <div class="nav-actions">
     <button onclick="restart()">Restart</button>
     <button onclick="stopTest()">Stop</button>
-    <button id="nextBtn" onclick="nextLevel()">Next ⏭</button>
+    <button id="nextBtn" onclick="nextLevel()">Next</button>
   </div>
 </div>
 
 <div class="main" onclick="focusInput()">
   <div class="card">
 
-    <div id="level">🏆 Level: 1</div>
+    <div id="level">Level 1</div>
 
-    <div class="xp-bar">
-      <div id="xp-fill"></div>
-    </div>
+    <div class="xp-bar"><div id="xp-fill"></div></div>
 
     <div id="quote" class="quote"></div>
 
     <input id="input">
 
-    <div class="stats">
-      <span>⏱ <span id="time">60</span></span>
-      <span>⚡ <span id="wpm">0</span></span>
-      <span>🎯 <span id="acc">0</span>%</span>
+    <div>
+      ⏱ <span id="time">60</span> |
+      ⚡ <span id="wpm">0</span> |
+      🎯 <span id="acc">0</span>%
     </div>
 
   </div>
@@ -235,13 +151,10 @@ input {
 <!-- TROPHY -->
 <div id="trophyScreen">
   <h1 id="trophyIcon">🏆</h1>
-  <h2>Congratulations!</h2>
-  <p>You completed all levels 🎉</p>
+  <h2>Completed!</h2>
 
-  <div class="final-stats">
-    <p>⚡ WPM: <span id="finalWpm">0</span></p>
-    <p>🎯 Accuracy: <span id="finalAcc">0</span>%</p>
-  </div>
+  <p>WPM: <span id="finalWpm"></span></p>
+  <p>Accuracy: <span id="finalAcc"></span>%</p>
 
   <button onclick="restartGame()">Play Again</button>
 
@@ -252,64 +165,57 @@ input {
 const texts = [
   "Practice makes perfect.",
   "Consistency is the key to mastering any skill.",
-  "Success comes to those who work hard and stay consistent every day.",
-  "The only way to achieve greatness is to stay focused and keep improving continuously."
+  "Success comes to those who work hard.",
+  "Keep improving every single day."
 ];
 
-let level = 0, xp = 0, xpNeed = 100;
-let time, timer, started, startTime;
-let currentText = "";
+let level=0,xp=0,xpNeed=100;
+let time,timer,started,startTime,currentText="";
+let confettiRunning=false;
 
-const quoteEl = document.getElementById("quote");
-const inputEl = document.getElementById("input");
+const quoteEl=document.getElementById("quote");
+const inputEl=document.getElementById("input");
 
-// LOAD
-function loadText() {
-  let index = Math.min(level, texts.length - 1);
-  currentText = texts[index];
-
-  quoteEl.innerHTML = "";
+function loadText(){
+  currentText=texts[Math.min(level,texts.length-1)];
+  quoteEl.innerHTML="";
 
   currentText.split("").forEach((c,i)=>{
-    let span = document.createElement("span");
-    span.innerText = c;
+    let span=document.createElement("span");
+    span.innerText=c;
     if(i===0) span.classList.add("current");
     quoteEl.appendChild(span);
   });
 
-  document.getElementById("level").innerText = "🏆 Level: " + (level+1);
+  document.getElementById("level").innerText="Level "+(level+1);
 }
 
-// FOCUS
-function focusInput(){ inputEl.focus(); }
+function focusInput(){inputEl.focus();}
 
-// TIMER
 function startTimer(){
-  startTime = new Date();
-  timer = setInterval(()=>{
+  startTime=new Date();
+  timer=setInterval(()=>{
     time--;
-    document.getElementById("time").innerText = time;
+    document.getElementById("time").innerText=time;
     if(time===0) stopTest();
   },1000);
 }
 
-// TYPING
-inputEl.addEventListener("input", ()=>{
-  if(!started){ startTimer(); started=true; }
+inputEl.addEventListener("input",()=>{
+  if(!started){startTimer();started=true;}
 
-  const input = inputEl.value.split("");
-  const spans = quoteEl.querySelectorAll("span");
+  const input=inputEl.value.split("");
+  const spans=quoteEl.querySelectorAll("span");
 
   let correct=0;
 
   spans.forEach((s,i)=>{
-    const ch = input[i];
+    const ch=input[i];
     s.classList.remove("current");
 
     if(ch==null){
       s.classList.remove("correct","wrong");
-    }
-    else if(ch===s.innerText){
+    } else if(ch===s.innerText){
       s.classList.add("correct");
       correct++;
     } else {
@@ -317,41 +223,35 @@ inputEl.addEventListener("input", ()=>{
     }
   });
 
-  if(spans[input.length]){
-    spans[input.length].classList.add("current");
-  }
+  if(spans[input.length]) spans[input.length].classList.add("current");
 
-  document.getElementById("acc").innerText =
-    Math.round((correct/currentText.length)*100) || 0;
+  document.getElementById("acc").innerText=
+    Math.round((correct/currentText.length)*100)||0;
 });
 
-// CALCULATE
 function calculate(){
-  let words = inputEl.value.trim().split(/\s+/).length;
-  let min = (new Date()-startTime)/60000;
-  let wpm = Math.round(words/min);
+  let words=inputEl.value.trim().split(/\s+/).length;
+  let min=(new Date()-startTime)/60000;
+  let wpm=Math.round(words/min);
 
-  document.getElementById("wpm").innerText = wpm||0;
+  document.getElementById("wpm").innerText=wpm||0;
 
-  xp += wpm*2;
+  xp+=wpm*2;
 
   if(xp>=xpNeed){
     xp-=xpNeed;
     level++;
   }
 
-  document.getElementById("xp-fill").style.width =
-    (xp/xpNeed*100)+"%";
+  document.getElementById("xp-fill").style.width=(xp/xpNeed*100)+"%";
 }
 
-// STOP
 function stopTest(){
   clearInterval(timer);
   inputEl.disabled=true;
   calculate();
 }
 
-// RESTART
 function restart(){
   clearInterval(timer);
   time=60;
@@ -365,12 +265,11 @@ function restart(){
   inputEl.disabled=false;
 
   loadText();
-  updateNextButton();
+  updateBtn();
 }
 
-// NEXT
 function nextLevel(){
-  if(level >= texts.length - 1){
+  if(level>=texts.length-1){
     showTrophy();
     return;
   }
@@ -378,50 +277,50 @@ function nextLevel(){
   restart();
 }
 
-// BUTTON UPDATE
-function updateNextButton(){
-  const btn = document.getElementById("nextBtn");
-  btn.innerText =
-    level >= texts.length - 1 ? "Done 🏁" : "Next ⏭";
+function updateBtn(){
+  document.getElementById("nextBtn").innerText=
+    level>=texts.length-1?"Done":"Next";
 }
 
-// TROPHY
 function showTrophy(){
   document.getElementById("trophyScreen").style.display="flex";
 
-  document.getElementById("finalWpm").innerText =
+  document.getElementById("finalWpm").innerText=
     document.getElementById("wpm").innerText;
 
-  document.getElementById("finalAcc").innerText =
+  document.getElementById("finalAcc").innerText=
     document.getElementById("acc").innerText;
 
   startConfetti();
 }
 
-// CONFETTI
+/* FIXED CONFETTI */
 function startConfetti(){
-  const canvas = document.getElementById("confetti");
-  const ctx = canvas.getContext("2d");
+  const canvas=document.getElementById("confetti");
+  const ctx=canvas.getContext("2d");
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
 
-  let pieces = [];
+  let pieces=[];
+  confettiRunning=true;
 
   for(let i=0;i<100;i++){
     pieces.push({
       x:Math.random()*canvas.width,
       y:Math.random()*canvas.height,
-      size:Math.random()*5+5,
-      speed:Math.random()*3+2
+      size:5,
+      speed:2+Math.random()*2
     });
   }
 
   function draw(){
+    if(!confettiRunning) return;
+
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
     pieces.forEach(p=>{
-      ctx.fillStyle = "hsl("+Math.random()*360+",100%,50%)";
+      ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
       ctx.fillRect(p.x,p.y,p.size,p.size);
       p.y+=p.speed;
       if(p.y>canvas.height) p.y=0;
@@ -433,15 +332,22 @@ function startConfetti(){
   draw();
 }
 
-// RESTART GAME
 function restartGame(){
+  confettiRunning=false;
+
   level=0;
   xp=0;
+
   document.getElementById("trophyScreen").style.display="none";
+
+  // clear canvas
+  document.getElementById("confetti")
+    .getContext("2d")
+    .clearRect(0,0,window.innerWidth,window.innerHeight);
+
   restart();
 }
 
-// INIT
 restart();
 </script>
 

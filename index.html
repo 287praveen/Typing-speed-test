@@ -108,7 +108,7 @@ button:hover {
   line-height: 2;
 }
 
-/* Text styles */
+/* Typing styles */
 .correct { color: #22c55e; text-shadow: 0 0 5px #22c55e; }
 .wrong { color: #ef4444; }
 
@@ -126,7 +126,6 @@ button:hover {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  font-size: 14px;
 }
 
 /* Hidden input */
@@ -144,6 +143,7 @@ input {
   <div>
     <button onclick="restart()">Restart</button>
     <button onclick="stopTest()">Stop</button>
+    <button onclick="nextLevel()">Next Level ⏭</button>
   </div>
 </div>
 
@@ -171,10 +171,10 @@ input {
 
 <script>
 const texts = [
-  "Push yourself because no one else is going to do it for you.",
-  "Consistency is the key to success in every field.",
-  "Hard work always pays off if you stay dedicated.",
-  "Keep learning and never stop improving your skills."
+  "Practice makes perfect.",
+  "Consistency is the key to mastering any skill.",
+  "Success comes to those who work hard and stay consistent every day.",
+  "The only way to achieve greatness is to stay focused and keep improving continuously."
 ];
 
 let level = 0, xp = 0, xpNeed = 100;
@@ -184,8 +184,11 @@ let currentText = "";
 const quoteEl = document.getElementById("quote");
 const inputEl = document.getElementById("input");
 
+// Load text
 function loadText() {
-  currentText = texts[Math.floor(Math.random()*texts.length)];
+  let index = Math.min(level, texts.length - 1);
+  currentText = texts[index];
+
   quoteEl.innerHTML = "";
 
   currentText.split("").forEach((c,i)=>{
@@ -198,8 +201,10 @@ function loadText() {
   document.getElementById("level").innerText = "🏆 Level: " + (level+1);
 }
 
+// Focus input
 function focusInput() { inputEl.focus(); }
 
+// Timer
 function startTimer() {
   startTime = new Date();
   timer = setInterval(()=>{
@@ -209,6 +214,7 @@ function startTimer() {
   },1000);
 }
 
+// Typing logic
 inputEl.addEventListener("input", ()=>{
   if(!started){
     startTimer();
@@ -244,6 +250,7 @@ inputEl.addEventListener("input", ()=>{
   document.getElementById("acc").innerText = acc || 0;
 });
 
+// Calculate
 function calculate(){
   let words = inputEl.value.trim().split(/\s+/).length;
   let min = (new Date()-startTime)/60000;
@@ -261,12 +268,14 @@ function calculate(){
   document.getElementById("xp-fill").style.width = (xp/xpNeed*100)+"%";
 }
 
+// Stop
 function stopTest(){
   clearInterval(timer);
   inputEl.disabled=true;
   calculate();
 }
 
+// Restart
 function restart(){
   clearInterval(timer);
   time=60;
@@ -282,6 +291,14 @@ function restart(){
   loadText();
 }
 
+// 🔥 NEXT LEVEL BUTTON FUNCTION
+function nextLevel(){
+  level++;
+  level = Math.min(level, texts.length - 1); // limit max
+  restart();
+}
+
+// Init
 restart();
 </script>
 

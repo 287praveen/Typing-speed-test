@@ -138,7 +138,7 @@ button:hover {
   font-size: 14px;
 }
 
-/* HIDDEN INPUT */
+/* INPUT */
 input {
   opacity: 0;
   position: absolute;
@@ -152,19 +152,48 @@ input {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #020617;
+  background: linear-gradient(135deg, #020617, #0f172a);
   color: white;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 1000;
   text-align: center;
+  overflow: hidden;
+}
+
+#trophyIcon {
+  font-size: 80px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  50% { transform: translateY(-15px); }
+}
+
+.final-stats {
+  margin: 20px 0;
+}
+
+#trophyScreen button {
+  width: auto;
+  flex: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  background: #38bdf8;
+  color: black;
+}
+
+#confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* MOBILE */
 @media (max-width: 500px) {
   .quote { font-size: 16px; }
-  button { font-size: 13px; padding: 8px; }
+  button { font-size: 13px; }
 }
 </style>
 </head>
@@ -203,12 +232,20 @@ input {
   </div>
 </div>
 
-<!-- TROPHY SCREEN -->
+<!-- TROPHY -->
 <div id="trophyScreen">
-  <h1 style="font-size:60px;">🏆</h1>
+  <h1 id="trophyIcon">🏆</h1>
   <h2>Congratulations!</h2>
   <p>You completed all levels 🎉</p>
+
+  <div class="final-stats">
+    <p>⚡ WPM: <span id="finalWpm">0</span></p>
+    <p>🎯 Accuracy: <span id="finalAcc">0</span>%</p>
+  </div>
+
   <button onclick="restartGame()">Play Again</button>
+
+  <canvas id="confetti"></canvas>
 </div>
 
 <script>
@@ -226,7 +263,7 @@ let currentText = "";
 const quoteEl = document.getElementById("quote");
 const inputEl = document.getElementById("input");
 
-// LOAD TEXT
+// LOAD
 function loadText() {
   let index = Math.min(level, texts.length - 1);
   currentText = texts[index];
@@ -244,10 +281,10 @@ function loadText() {
 }
 
 // FOCUS
-function focusInput() { inputEl.focus(); }
+function focusInput(){ inputEl.focus(); }
 
 // TIMER
-function startTimer() {
+function startTimer(){
   startTime = new Date();
   timer = setInterval(()=>{
     time--;
@@ -258,10 +295,7 @@ function startTimer() {
 
 // TYPING
 inputEl.addEventListener("input", ()=>{
-  if(!started){
-    startTimer();
-    started=true;
-  }
+  if(!started){ startTimer(); started=true; }
 
   const input = inputEl.value.split("");
   const spans = quoteEl.querySelectorAll("span");
@@ -278,8 +312,7 @@ inputEl.addEventListener("input", ()=>{
     else if(ch===s.innerText){
       s.classList.add("correct");
       correct++;
-    }
-    else{
+    } else {
       s.classList.add("wrong");
     }
   });
@@ -288,8 +321,8 @@ inputEl.addEventListener("input", ()=>{
     spans[input.length].classList.add("current");
   }
 
-  let acc = Math.round((correct/currentText.length)*100);
-  document.getElementById("acc").innerText = acc || 0;
+  document.getElementById("acc").innerText =
+    Math.round((correct/currentText.length)*100) || 0;
 });
 
 // CALCULATE
@@ -307,7 +340,8 @@ function calculate(){
     level++;
   }
 
-  document.getElementById("xp-fill").style.width = (xp/xpNeed*100)+"%";
+  document.getElementById("xp-fill").style.width =
+    (xp/xpNeed*100)+"%";
 }
 
 // STOP
@@ -334,13 +368,12 @@ function restart(){
   updateNextButton();
 }
 
-// NEXT LEVEL
+// NEXT
 function nextLevel(){
   if(level >= texts.length - 1){
     showTrophy();
     return;
   }
-
   level++;
   restart();
 }
@@ -348,24 +381,63 @@ function nextLevel(){
 // BUTTON UPDATE
 function updateNextButton(){
   const btn = document.getElementById("nextBtn");
-
-  if(level >= texts.length - 1){
-    btn.innerText = "Done 🏁";
-  } else {
-    btn.innerText = "Next ⏭";
-  }
+  btn.innerText =
+    level >= texts.length - 1 ? "Done 🏁" : "Next ⏭";
 }
 
 // TROPHY
 function showTrophy(){
-  document.getElementById("trophyScreen").style.display = "flex";
+  document.getElementById("trophyScreen").style.display="flex";
+
+  document.getElementById("finalWpm").innerText =
+    document.getElementById("wpm").innerText;
+
+  document.getElementById("finalAcc").innerText =
+    document.getElementById("acc").innerText;
+
+  startConfetti();
+}
+
+// CONFETTI
+function startConfetti(){
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let pieces = [];
+
+  for(let i=0;i<100;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      size:Math.random()*5+5,
+      speed:Math.random()*3+2
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    pieces.forEach(p=>{
+      ctx.fillStyle = "hsl("+Math.random()*360+",100%,50%)";
+      ctx.fillRect(p.x,p.y,p.size,p.size);
+      p.y+=p.speed;
+      if(p.y>canvas.height) p.y=0;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
 }
 
 // RESTART GAME
 function restartGame(){
-  level = 0;
-  xp = 0;
-  document.getElementById("trophyScreen").style.display = "none";
+  level=0;
+  xp=0;
+  document.getElementById("trophyScreen").style.display="none";
   restart();
 }
 

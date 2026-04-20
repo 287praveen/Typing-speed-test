@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TypeX Ultra</title>
+<title>TypeX Ultimate</title>
 
 <style>
 * {
@@ -48,8 +48,8 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 8px;
   width: 100%;
+  margin-top: 8px;
 }
 
 /* BUTTONS */
@@ -96,7 +96,7 @@ button:hover {
   font-weight: bold;
 }
 
-/* XP BAR */
+/* XP */
 .xp-bar {
   height: 12px;
   background: #1e293b;
@@ -118,7 +118,6 @@ button:hover {
   line-height: 1.8;
 }
 
-/* TYPING */
 .correct { color: #22c55e; }
 .wrong { color: #ef4444; }
 
@@ -145,16 +144,27 @@ input {
   position: absolute;
 }
 
+/* TROPHY SCREEN */
+#trophyScreen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #020617;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  text-align: center;
+}
+
 /* MOBILE */
 @media (max-width: 500px) {
-  .quote {
-    font-size: 16px;
-  }
-
-  button {
-    font-size: 13px;
-    padding: 8px;
-  }
+  .quote { font-size: 16px; }
+  button { font-size: 13px; padding: 8px; }
 }
 </style>
 </head>
@@ -162,12 +172,12 @@ input {
 <body>
 
 <div class="navbar">
-  <div class="logo">⚡ TypeX Ultra</div>
+  <div class="logo">⚡ TypeX Ultimate</div>
 
   <div class="nav-actions">
     <button onclick="restart()">Restart</button>
     <button onclick="stopTest()">Stop</button>
-    <button onclick="nextLevel()">Next ⏭</button>
+    <button id="nextBtn" onclick="nextLevel()">Next ⏭</button>
   </div>
 </div>
 
@@ -191,6 +201,14 @@ input {
     </div>
 
   </div>
+</div>
+
+<!-- TROPHY SCREEN -->
+<div id="trophyScreen">
+  <h1 style="font-size:60px;">🏆</h1>
+  <h2>Congratulations!</h2>
+  <p>You completed all levels 🎉</p>
+  <button onclick="restartGame()">Play Again</button>
 </div>
 
 <script>
@@ -313,12 +331,41 @@ function restart(){
   inputEl.disabled=false;
 
   loadText();
+  updateNextButton();
 }
 
 // NEXT LEVEL
 function nextLevel(){
+  if(level >= texts.length - 1){
+    showTrophy();
+    return;
+  }
+
   level++;
-  level = Math.min(level, texts.length - 1);
+  restart();
+}
+
+// BUTTON UPDATE
+function updateNextButton(){
+  const btn = document.getElementById("nextBtn");
+
+  if(level >= texts.length - 1){
+    btn.innerText = "Done 🏁";
+  } else {
+    btn.innerText = "Next ⏭";
+  }
+}
+
+// TROPHY
+function showTrophy(){
+  document.getElementById("trophyScreen").style.display = "flex";
+}
+
+// RESTART GAME
+function restartGame(){
+  level = 0;
+  xp = 0;
+  document.getElementById("trophyScreen").style.display = "none";
   restart();
 }
 

@@ -6,113 +6,177 @@
 <title>TypeX Ultimate</title>
 
 <style>
-* {margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
 
 body {
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  background:linear-gradient(-45deg,#0f172a,#1e293b,#020617);
-  color:white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #020617);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  color: white;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% }
+  50% { background-position: 100% }
+  100% { background-position: 0% }
 }
 
 /* NAVBAR */
 .navbar {
-  display:flex;
-  justify-content:space-between;
-  padding:10px;
-  flex-wrap:wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+  color: #38bdf8;
 }
 
 .nav-actions {
-  display:flex;
-  gap:5px;
-  width:100%;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 8px;
 }
 
+/* BUTTON FIX */
 button {
-  flex:1;
-  padding:8px;
-  border:none;
-  border-radius:6px;
-  background:#1e293b;
-  color:white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #38bdf8;
+  color: black;
+  transform: scale(1.05);
+}
+
+/* ONLY navbar buttons stretch */
+.nav-actions button {
+  flex: 1;
 }
 
 /* MAIN */
 .main {
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
 
+/* CARD */
 .card {
-  width:90%;
-  max-width:800px;
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
 }
 
-/* TEXT */
-.quote {font-size:18px;line-height:1.6;}
-.correct {color:lime;}
-.wrong {color:red;}
-
-.current {
-  border-bottom:2px solid cyan;
-  animation:blink 1s infinite;
+/* LEVEL */
+#level {
+  margin-bottom: 10px;
+  font-weight: bold;
 }
-
-@keyframes blink {50%{border-color:transparent;}}
 
 /* XP */
 .xp-bar {
-  height:10px;
-  background:#1e293b;
-  margin:10px 0;
+  height: 12px;
+  background: #1e293b;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 15px;
 }
 
 #xp-fill {
-  height:100%;
-  width:0%;
-  background:cyan;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+  transition: width 0.5s ease;
 }
 
-/* TROPHY */
+/* TEXT */
+.quote {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.correct { color: #22c55e; }
+.wrong { color: #ef4444; }
+
+.current {
+  border-bottom: 2px solid #38bdf8;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* INPUT */
+input {
+  opacity: 0;
+  position: absolute;
+}
+
+/* TROPHY SCREEN */
 #trophyScreen {
-  display:none;
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  background:black;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #020617;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  text-align: center;
 }
 
-#trophyIcon {
-  font-size:70px;
-  animation:bounce 1s infinite;
-}
-
-@keyframes bounce {
-  50%{transform:translateY(-10px);}
-}
-
+/* 🔥 FIXED BUTTON */
 #trophyScreen button {
-  width:auto;
-  padding:10px 20px;
-  margin-top:15px;
-  background:cyan;
-  color:black;
+  flex: none;
+  width: auto;
+  padding: 12px 25px;
+  font-size: 16px;
+  margin-top: 15px;
+  background: #38bdf8;
+  color: black;
 }
 
-/* CANVAS */
-#confetti {
-  position:absolute;
-  top:0;
-  left:0;
+/* MOBILE */
+@media (max-width: 500px) {
+  .quote { font-size: 16px; }
+  button { font-size: 13px; padding: 8px; }
 }
 </style>
 </head>
@@ -120,29 +184,32 @@ button {
 <body>
 
 <div class="navbar">
-  <div>⚡ TypeX</div>
+  <div class="logo">⚡ TypeX Ultimate</div>
+
   <div class="nav-actions">
     <button onclick="restart()">Restart</button>
     <button onclick="stopTest()">Stop</button>
-    <button id="nextBtn" onclick="nextLevel()">Next</button>
+    <button id="nextBtn" onclick="nextLevel()">Next ⏭</button>
   </div>
 </div>
 
 <div class="main" onclick="focusInput()">
   <div class="card">
 
-    <div id="level">Level 1</div>
+    <div id="level">🏆 Level: 1</div>
 
-    <div class="xp-bar"><div id="xp-fill"></div></div>
+    <div class="xp-bar">
+      <div id="xp-fill"></div>
+    </div>
 
     <div id="quote" class="quote"></div>
 
     <input id="input">
 
-    <div>
-      ⏱ <span id="time">60</span> |
-      ⚡ <span id="wpm">0</span> |
-      🎯 <span id="acc">0</span>%
+    <div class="stats">
+      <span>⏱ <span id="time">60</span></span>
+      <span>⚡ <span id="wpm">0</span></span>
+      <span>🎯 <span id="acc">0</span>%</span>
     </div>
 
   </div>
@@ -150,100 +217,104 @@ button {
 
 <!-- TROPHY -->
 <div id="trophyScreen">
-  <h1 id="trophyIcon">🏆</h1>
-  <h2>Completed!</h2>
-
-  <p>WPM: <span id="finalWpm"></span></p>
-  <p>Accuracy: <span id="finalAcc"></span>%</p>
-
+  <h1 style="font-size:60px;">🏆</h1>
+  <h2>Congratulations!</h2>
+  <p>You completed all levels 🎉</p>
   <button onclick="restartGame()">Play Again</button>
-
-  <canvas id="confetti"></canvas>
 </div>
 
 <script>
 const texts = [
   "Practice makes perfect.",
   "Consistency is the key to mastering any skill.",
-  "Success comes to those who work hard.",
-  "Keep improving every single day."
+  "Success comes to those who work hard and stay consistent every day.",
+  "The only way to achieve greatness is to stay focused and keep improving continuously."
 ];
 
-let level=0,xp=0,xpNeed=100;
-let time,timer,started,startTime,currentText="";
-let confettiRunning=false;
+let level = 0, xp = 0, xpNeed = 100;
+let time, timer, started, startTime;
+let currentText = "";
 
-const quoteEl=document.getElementById("quote");
-const inputEl=document.getElementById("input");
+const quoteEl = document.getElementById("quote");
+const inputEl = document.getElementById("input");
 
-function loadText(){
-  currentText=texts[Math.min(level,texts.length-1)];
-  quoteEl.innerHTML="";
+function loadText() {
+  let index = Math.min(level, texts.length - 1);
+  currentText = texts[index];
+
+  quoteEl.innerHTML = "";
 
   currentText.split("").forEach((c,i)=>{
-    let span=document.createElement("span");
-    span.innerText=c;
+    let span = document.createElement("span");
+    span.innerText = c;
     if(i===0) span.classList.add("current");
     quoteEl.appendChild(span);
   });
 
-  document.getElementById("level").innerText="Level "+(level+1);
+  document.getElementById("level").innerText = "🏆 Level: " + (level+1);
 }
 
-function focusInput(){inputEl.focus();}
+function focusInput() { inputEl.focus(); }
 
-function startTimer(){
-  startTime=new Date();
-  timer=setInterval(()=>{
+function startTimer() {
+  startTime = new Date();
+  timer = setInterval(()=>{
     time--;
-    document.getElementById("time").innerText=time;
+    document.getElementById("time").innerText = time;
     if(time===0) stopTest();
   },1000);
 }
 
-inputEl.addEventListener("input",()=>{
-  if(!started){startTimer();started=true;}
+inputEl.addEventListener("input", ()=>{
+  if(!started){
+    startTimer();
+    started=true;
+  }
 
-  const input=inputEl.value.split("");
-  const spans=quoteEl.querySelectorAll("span");
+  const input = inputEl.value.split("");
+  const spans = quoteEl.querySelectorAll("span");
 
   let correct=0;
 
   spans.forEach((s,i)=>{
-    const ch=input[i];
+    const ch = input[i];
     s.classList.remove("current");
 
     if(ch==null){
       s.classList.remove("correct","wrong");
-    } else if(ch===s.innerText){
+    }
+    else if(ch===s.innerText){
       s.classList.add("correct");
       correct++;
-    } else {
+    }
+    else{
       s.classList.add("wrong");
     }
   });
 
-  if(spans[input.length]) spans[input.length].classList.add("current");
+  if(spans[input.length]){
+    spans[input.length].classList.add("current");
+  }
 
-  document.getElementById("acc").innerText=
-    Math.round((correct/currentText.length)*100)||0;
+  let acc = Math.round((correct/currentText.length)*100);
+  document.getElementById("acc").innerText = acc || 0;
 });
 
 function calculate(){
-  let words=inputEl.value.trim().split(/\s+/).length;
-  let min=(new Date()-startTime)/60000;
-  let wpm=Math.round(words/min);
+  let words = inputEl.value.trim().split(/\s+/).length;
+  let min = (new Date()-startTime)/60000;
+  let wpm = Math.round(words/min);
 
-  document.getElementById("wpm").innerText=wpm||0;
+  document.getElementById("wpm").innerText = wpm||0;
 
-  xp+=wpm*2;
+  xp += wpm*2;
 
   if(xp>=xpNeed){
     xp-=xpNeed;
     level++;
   }
 
-  document.getElementById("xp-fill").style.width=(xp/xpNeed*100)+"%";
+  document.getElementById("xp-fill").style.width = (xp/xpNeed*100)+"%";
 }
 
 function stopTest(){
@@ -265,86 +336,37 @@ function restart(){
   inputEl.disabled=false;
 
   loadText();
-  updateBtn();
+  updateNextButton();
 }
 
 function nextLevel(){
-  if(level>=texts.length-1){
+  if(level >= texts.length - 1){
     showTrophy();
     return;
   }
+
   level++;
   restart();
 }
 
-function updateBtn(){
-  document.getElementById("nextBtn").innerText=
-    level>=texts.length-1?"Done":"Next";
+function updateNextButton(){
+  const btn = document.getElementById("nextBtn");
+
+  if(level >= texts.length - 1){
+    btn.innerText = "Done 🏁";
+  } else {
+    btn.innerText = "Next ⏭";
+  }
 }
 
 function showTrophy(){
-  document.getElementById("trophyScreen").style.display="flex";
-
-  document.getElementById("finalWpm").innerText=
-    document.getElementById("wpm").innerText;
-
-  document.getElementById("finalAcc").innerText=
-    document.getElementById("acc").innerText;
-
-  startConfetti();
-}
-
-/* FIXED CONFETTI */
-function startConfetti(){
-  const canvas=document.getElementById("confetti");
-  const ctx=canvas.getContext("2d");
-
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-
-  let pieces=[];
-  confettiRunning=true;
-
-  for(let i=0;i<100;i++){
-    pieces.push({
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height,
-      size:5,
-      speed:2+Math.random()*2
-    });
-  }
-
-  function draw(){
-    if(!confettiRunning) return;
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    pieces.forEach(p=>{
-      ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
-      ctx.fillRect(p.x,p.y,p.size,p.size);
-      p.y+=p.speed;
-      if(p.y>canvas.height) p.y=0;
-    });
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
+  document.getElementById("trophyScreen").style.display = "flex";
 }
 
 function restartGame(){
-  confettiRunning=false;
-
-  level=0;
-  xp=0;
-
-  document.getElementById("trophyScreen").style.display="none";
-
-  // clear canvas
-  document.getElementById("confetti")
-    .getContext("2d")
-    .clearRect(0,0,window.innerWidth,window.innerHeight);
-
+  level = 0;
+  xp = 0;
+  document.getElementById("trophyScreen").style.display = "none";
   restart();
 }
 
